@@ -6,8 +6,15 @@ require("dotenv").config();
 const create = async () => {
   const app = express();
 
-  //Allowing cors
-  app.use(cors());
+ 
+ //Allowing cors
+ app.use(
+  cors({
+    origin: true,
+    credentials: true,
+    exposedHeaders: ["set-cookie"],
+  })
+);
   //Body parser
   app.use(express.json({ limit: "50mb" }));
   app.use(
