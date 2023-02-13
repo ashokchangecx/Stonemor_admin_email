@@ -6,6 +6,7 @@ require("dotenv").config();
 const bodyParser = require("body-parser");
 const serverless = require("serverless-http");
 const { sendMail } = require("../services/mail.services");
+const { default: axios } = require("axios");
 let from = `StoneMor Survey <perinbaraja1996@gmail.com>`;
 
 const app = express();
@@ -54,6 +55,25 @@ router.post("/send", async (req, res) => {
   } catch (err) {
     console.log("mailChat err: ", err);
     return res.json({ msg: err || config.DEFAULT_RES_ERROR });
+  }
+});
+
+router.post("/pushData", async (req, res) => {
+  try {
+    const { data } = await axios.post(
+      "https://a.klaviyo.com/api/v2/list",
+
+      req.body,
+      {
+        headers: {
+          Authorization: `Bearer pk_a2cec243366943810a1cedd1931fb8d6cc`,
+        },
+      }
+    );
+    res.send(data);
+    res.json({ message: "Hello, World!" });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
   }
 });
 

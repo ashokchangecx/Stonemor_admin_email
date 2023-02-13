@@ -33,4 +33,5 @@ Regards,<br/> Stonemor Survey Team </strong></p>`,
     return res.json({ msg: err || config.DEFAULT_RES_ERROR });
   }
 });
+
 module.exports = router;
