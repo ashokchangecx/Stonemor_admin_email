@@ -61,7 +61,7 @@ router.post("/linksend", async (req, res) => {
   try {
     const { mail, userName, surveyLink, survey } = req.body;
 
-    console.log(surveyLink, mail);
+    // console.log(surveyLink, mail);
     const mailOptions = {
       from: from,
       to: mail,
