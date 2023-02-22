@@ -33,5 +33,26 @@ Regards,<br/> Stonemor Survey Team </strong></p>`,
     return res.json({ msg: err || config.DEFAULT_RES_ERROR });
   }
 });
+router.post("/linksend", async (req, res) => {
+  try {
+    const { mail, userName, surveyLink, survey } = req.body;
 
+    // console.log(surveyLink, mail);
+    const mailOptions = {
+      from: from,
+      to: mail,
+      subject: `stonemor survey Link`,
+      html: `<p><strong>
+        Hello ${userName},<br/><br/>
+        Please click the link below to attend the survey - ${survey}  <br/>
+        <a href="${surveyLink}">${surveyLink}</a><br/><br/><br/>
+        Regards,<br/> Stonemor Survey Team </strong></p>`,
+    };
+    const mailSent = await sendMail(mailOptions);
+    res.json({ success: true, mailSent });
+  } catch (err) {
+    console.log("mailChat err: ", err);
+    return res.json({ msg: err || config.DEFAULT_RES_ERROR });
+  }
+});
 module.exports = router;
