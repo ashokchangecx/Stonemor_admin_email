@@ -57,23 +57,26 @@ router.post("/send", async (req, res) => {
     return res.json({ msg: err || config.DEFAULT_RES_ERROR });
   }
 });
-
-router.post("/pushData", async (req, res) => {
+router.post("/linksend", async (req, res) => {
   try {
-    const { data } = await axios.post(
-      "https://a.klaviyo.com/api/v2/list",
+    const { mail, userName, surveyLink, survey } = req.body;
 
-      req.body,
-      {
-        headers: {
-          Authorization: `Bearer pk_a2cec243366943810a1cedd1931fb8d6cc`,
-        },
-      }
-    );
-    res.send(data);
-    res.json({ message: "Hello, World!" });
-  } catch (error) {
-    res.status(500).send({ error: error.message });
+    console.log(surveyLink, mail);
+    const mailOptions = {
+      from: from,
+      to: mail,
+      subject: `stonemor survey Link`,
+      html: `<p><strong>
+        Hello ${userName},<br/><br/>
+        Please click the link below to attend the survey - ${survey}  <br/>
+        <a href="${surveyLink}">${surveyLink}</a><br/><br/><br/>
+        Regards,<br/> Stonemor Survey Team </strong></p>`,
+    };
+    const mailSent = await sendMail(mailOptions);
+    res.json({ success: true, mailSent });
+  } catch (err) {
+    console.log("mailChat err: ", err);
+    return res.json({ msg: err || config.DEFAULT_RES_ERROR });
   }
 });
 
