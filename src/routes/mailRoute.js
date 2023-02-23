@@ -55,4 +55,5 @@ router.post("/linksend", async (req, res) => {
     return res.json({ msg: err || config.DEFAULT_RES_ERROR });
   }
 });
+
 module.exports = router;
